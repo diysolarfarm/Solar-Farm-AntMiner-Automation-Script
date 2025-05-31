@@ -104,7 +104,7 @@ Deployment Checklist
 
     Update VNish firmware on each S19 to a build that exposes the Web-API.
 
-    Create a long-lived token in Home Assistant.
+    Create a long-lived token in Home Assistant. https://developers.home-assistant.io/docs/auth_api/#making-authenticated-requests
 
     Populate miners.json with correct IPs, passwords and thresholds.
 
