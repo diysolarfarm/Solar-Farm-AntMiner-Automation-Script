@@ -1,4 +1,4 @@
-# Solar-Farm-Automation-Script
+# Solar-Farm-AntMiner-Automation-Script
 Python 3 program that regulates Antminer S19-series rigs running VNish firmware
 The S19 Solar Farm Automation Script is a Python 3 program that regulates Antminer S19-series rigs running VNish firmware in an off-grid or hybrid solar battery installation. It saves power by pausing or resuming hashing according to the live state of charge (SoC) of the battery, which it retrieves from Home Assistant (HA). All communication is done through HTTP APIs, so no additional libraries are required beyond requests.
 Main Goals
