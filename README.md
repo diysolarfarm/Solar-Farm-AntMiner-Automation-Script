@@ -1,17 +1,24 @@
 # Solar-Farm-AntMiner-Automation-Script
-Python 3 program that regulates Antminer S19-series rigs running VNish firmware
+
+
 The S19 Solar Farm Automation Script is a Python 3 program that regulates Antminer S19-series rigs running VNish firmware in an off-grid or hybrid solar battery installation. 
 It saves power by pausing or resuming hashing according to the live state of charge (SoC) of the battery, which it retrieves from Home Assistant (HA). 
+
 All communication is done through HTTP APIs, so no additional libraries are required beyond requests.
+
 Main Goals
 
-    Prevent battery deep-discharge by stopping miners when SoC falls below a per-miner stop threshold.
+1) Prevent battery deep-discharge by stopping miners when SoC falls below a per-miner stop   threshold.
 
-    Maximize uptime by automatically restarting each miner when SoC climbs above its resume threshold.
+    
+2) Maximize uptime by automatically restarting each miner when SoC climbs above its resume threshold.
 
-    Maintain secure, unattended operation using VNish’s built-in authentication tokens and a Home Assistant long-lived token.
+    
+3) Maintain secure, unattended operation using VNish’s built-in authentication tokens and a 
+Home Assistant long-lived token.
 
 Architecture and Files
+
 | File                          | Purpose                                                                                                  |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------- |
 | **`vnish_soc_controller.py`** | Core script (≈ 300 lines) containing CLI parsing, the polling loop, miner abstractions and SoC handling. |
@@ -28,21 +35,21 @@ Architecture and Files
 Internal Classes and Functions
 Miner
 
-    Wraps all API interactions for a single device:
+    
+Wraps all API interactions for a single device:
 
-        refresh_token() unlocks the Web-GUI and caches the session token.
+        
+refresh_token() unlocks the Web-GUI and caches the session token.
 
-        is_hashing() checks whether the unit is actively mining. It tries /api/v1/status and falls back to /api/v1/summary, 
+        
+is_hashing() checks whether the unit is actively mining. It tries /api/v1/status and falls back to /api/v1/summary, 
         then inspects flags or real-time hashrate metrics.
 
-        set_hashing(start: bool) issues /mining/start or /mining/stop with automatic token refresh on HTTP 401.
+        
+set_hashing(start: bool) issues /mining/start or /mining/stop with automatic token refresh on HTTP 401.
 
-get_soc()
-
-Queries Home Assistant’s REST endpoint /api/states/<entity> and returns the battery SoC as float.
-control_cycle()
-
-Runs once per poll:
+get_soc() Queries Home Assistant’s REST endpoint /api/states/<entity> and returns the battery SoC as float.
+control_cycle() Runs once per poll:
 
     Calls is_hashing() for each miner.
 
@@ -66,16 +73,16 @@ Robustness Features
 
     Endpoint fallback: Works with both /status and /summary firmware trees.
 
-    Hashrate-based detection: Considers the miner active if any real-time hashrate key reports a value above zero, 
+    Hashrate-based detection: Considers the miner active if any real-time hashrate key reports a value above zero,  
     covering all VNish 1.2 builds.
 
     Graceful HTTP handling:
 
-        Retries unlock once on 401.
+       Retries unlock once on 401.
 
-        Treats 500 on start/stop as “already in desired state”.
+       Treats 500 on start/stop as “already in desired state”.
 
-        Catches unexpected exceptions and keeps the main loop running.
+       Catches unexpected exceptions and keeps the main loop running.
 
 Logging Behavior
 
@@ -88,6 +95,7 @@ Logging Behavior
 [192.168.88.20] SOC 78.0% → mining stopped
 
 Sample Configuration (miners.json)
+
 [
   { "ip": "192.168.88.20", "password": "admin", "stop_soc": 73, "resume_soc": 75 },
   { "ip": "192.168.88.21", "password": "admin", "stop_soc": 95, "resume_soc": 99 },
@@ -96,12 +104,14 @@ Sample Configuration (miners.json)
 
 
 Typical Usage
+
 export HA_TOKEN="your-long-lived-ha-token"
 python3 vnish_soc_controller.py \
     --ha-url http://192.168.88.239:8123 \
     --sensor sensor.solis_s6_eh1p_battery_soc \
     --config ./miners.json \
     --poll 30
+
 Run inside tmux, screen, or a small systemd service for continuous 24 × 7 operation.
 
 Deployment Checklist
