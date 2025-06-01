@@ -1,6 +1,8 @@
 # Solar-Farm-AntMiner-Automation-Script
 Python 3 program that regulates Antminer S19-series rigs running VNish firmware
-The S19 Solar Farm Automation Script is a Python 3 program that regulates Antminer S19-series rigs running VNish firmware in an off-grid or hybrid solar battery installation. It saves power by pausing or resuming hashing according to the live state of charge (SoC) of the battery, which it retrieves from Home Assistant (HA). All communication is done through HTTP APIs, so no additional libraries are required beyond requests.
+The S19 Solar Farm Automation Script is a Python 3 program that regulates Antminer S19-series rigs running VNish firmware in an off-grid or hybrid solar battery installation. 
+It saves power by pausing or resuming hashing according to the live state of charge (SoC) of the battery, which it retrieves from Home Assistant (HA). 
+All communication is done through HTTP APIs, so no additional libraries are required beyond requests.
 Main Goals
 
     Prevent battery deep-discharge by stopping miners when SoC falls below a per-miner stop threshold.
@@ -30,7 +32,8 @@ Miner
 
         refresh_token() unlocks the Web-GUI and caches the session token.
 
-        is_hashing() checks whether the unit is actively mining. It tries /api/v1/status and falls back to /api/v1/summary, then inspects flags or real-time hashrate metrics.
+        is_hashing() checks whether the unit is actively mining. It tries /api/v1/status and falls back to /api/v1/summary, 
+        then inspects flags or real-time hashrate metrics.
 
         set_hashing(start: bool) issues /mining/start or /mining/stop with automatic token refresh on HTTP 401.
 
@@ -63,7 +66,8 @@ Robustness Features
 
     Endpoint fallback: Works with both /status and /summary firmware trees.
 
-    Hashrate-based detection: Considers the miner active if any real-time hashrate key reports a value above zero, covering all VNish 1.2 builds.
+    Hashrate-based detection: Considers the miner active if any real-time hashrate key reports a value above zero, 
+    covering all VNish 1.2 builds.
 
     Graceful HTTP handling:
 
@@ -104,7 +108,8 @@ Deployment Checklist
 
     Update VNish firmware on each S19 to a build that exposes the Web-API.
 
-    Create a long-lived token in Home Assistant. https://developers.home-assistant.io/docs/auth_api/#making-authenticated-requests
+    Create a long-lived token in Home Assistant. 
+    https://developers.home-assistant.io/docs/auth_api/#making-authenticated-requests
 
     Populate miners.json with correct IPs, passwords and thresholds.
 
@@ -126,4 +131,6 @@ Extensibility Points
 
 Summary
 
-The script provides a lightweight, dependable way to align S19-series mining activity with real-time solar battery conditions. It requires only REST access to Home Assistant and the VNish API, is resilient to firmware variations, and can be customized with trivial Python edits. The result is improved battery health, optimized energy usage, and hands-free operation of a small or large fleet of Antminers in a renewable energy environment.
+The script provides a lightweight, dependable way to align S19-series mining activity with real-time solar battery conditions. 
+It requires only REST access to Home Assistant and the VNish API, is resilient to firmware variations, and can be customized with trivial Python edits. 
+The result is improved battery health, optimized energy usage, and hands-free operation of a small or large fleet of Antminers in a renewable energy environment.
