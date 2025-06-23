@@ -144,3 +144,11 @@ Summary
 The script provides a lightweight, dependable way to align S19-series mining activity with real-time solar battery conditions. 
 It requires only REST access to Home Assistant and the VNish API, is resilient to firmware variations, and can be customized with trivial Python edits. 
 The result is improved battery health, optimized energy usage, and hands-free operation of a small or large fleet of Antminers in a renewable energy environment.
+
+Videos
+
+https://www.youtube.com/watch?v=BcLgwvHmY_Q
+
+https://www.youtube.com/watch?v=T9vfBFZuHBg
+
+
